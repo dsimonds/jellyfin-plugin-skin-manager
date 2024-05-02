@@ -179,7 +179,7 @@
                 var description = option.description;
                 var mode = option.mode == undefined ? "hex" : option.mode;
                 // change mode based on color value
-                mode = getColorType(defaultValue);
+                mode = getColorMode(defaultValue);
 
                 html +=
                     '<div class="inputContainer"><label></span>' +
@@ -776,7 +776,29 @@
                         Array.from(document.getElementsByClassName("color")).forEach(
                             (element) => {
                                 if (option.css == element.getAttribute("data-css")) {
-                                    result = element.value;
+                                    var values = $("#" + element.name).spectrum("get")
+
+                                    // Get color mode from values
+                                    var mode = getColorMode(values);
+                                    // Update "data-mode" if changed. (Ex, hex color is now rgba)
+                                    if (mode != element.getAttribute("data-mode")) {
+                                        element.setAttribute("data-mode", mode);
+                                    }
+
+                                    var color = "";
+
+                                    switch (mode) {
+                                        case "hex":
+                                            color = "#" + values.toHex();
+                                            break;
+                                        case "only_numbers":
+                                            color = values._r + "," + values._g + "," + values._b;
+                                            break;
+                                        default:
+                                            color = "rgba(" + Math.round(values._r) + "," + Math.round(values._g) + "," + Math.round(values._b) + "," + values._a + ")";
+                                            break;
+                                    }
+                                    result = color;
                                 }
                             }
                         );
@@ -820,8 +842,8 @@
                 return result;
             }
 
-            function getColorType(color) {
-                var trimLeft = /^[\s]+/,
+            function getColorMode(color) {
+                var trimLeft = /^[\s,#]+/,
                     trimRight = /\s+$/;
                 color = String(color).replace(trimLeft, '').replace(trimRight, '').toLowerCase();
                 var named = false;
@@ -849,13 +871,11 @@
                 if ((match = matchers.hsva.exec(color))) {
                     return "hsva";
                 }
-                if ((match = matchers.hex8.exec(color))) {
-                    return "hex";
-                }
-                if ((match = matchers.hex6.exec(color))) {
-                    return "hex";
-                }
-                if ((match = matchers.hex3.exec(color))) {
+                if (
+                    (match = matchers.hex8.exec(color)) ||
+                    (match = matchers.hex6.exec(color)) ||
+                    (match = matchers.hex3.exec(color))
+                ) {
                     return "hex";
                 }
 
@@ -886,9 +906,9 @@
                     hsla: new RegExp("hsla" + PERMISSIVE_MATCH4),
                     hsv: new RegExp("hsv" + PERMISSIVE_MATCH3),
                     hsva: new RegExp("hsva" + PERMISSIVE_MATCH4),
-                    hex3: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
-                    hex6: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
-                    hex8: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/
+                    hex3: /^([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
+                    hex6: /^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/,
+                    hex8: /^([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/
                 };
             })();
 
