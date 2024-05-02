@@ -177,10 +177,10 @@
                 colorPickers[id] = defaultValue
                 var css = option.css;
                 var description = option.description;
-                //var mode = "rgb";// option.mode;
                 var mode = option.mode == undefined ? "hex" : option.mode;
+                // change mode based on color value
                 mode = getColorType(defaultValue);
-                //console.log("defaultMode: " + mode);
+
                 html +=
                     '<div class="inputContainer"><label></span>' +
                     getToolTip(option) +
@@ -201,7 +201,7 @@
                     '<div class="fieldDescription">' +
                     description +
                     "</div></div>";
-                //console.log("HTML:" + html);
+
                 return html;
             }
 
@@ -450,12 +450,8 @@
                             color = "rgba(" + Math.round(values._r) + "," + Math.round(values._g) + "," + Math.round(values._b) + "," + values._a + ")";
                             break;
                     }
-                    //console.log("createCss()::Print name: " + element.name);
-                    //console.log("createCss()::Print values: " + values);
-                    //console.log("createCss()::Print mode: " + mode);
-                    //console.log("createCss()::Print color: " + color);
+
                     css += element.getAttribute("data-css").replaceAll("$", color) + "\n";
-                    //css += element.getAttribute("data-css").replaceAll("$", values) + "\n";
                 }
 
                 //procces number selector
@@ -781,37 +777,6 @@
                             (element) => {
                                 if (option.css == element.getAttribute("data-css")) {
                                     result = element.value;
-
-
-                                    // Output hex, rgba, numbers correctly to config
-                                    //var values = $("#" + element.name).spectrum("get")
-                                    //var mode = element.getAttribute("data-mode");
-                                    //var color = "";
-
-                                    //switch (mode) {
-                                    //    case "hex":
-                                    //        color = "#" + values.toHex();
-                                    //        break;
-                                    //    case "only_numbers":
-                                    //        color = values._r + "," + values._g + "," + values._b;
-                                    //        break;
-                                    //    default:
-                                    //        color = "rgba(" + Math.round(values._r) + "," + Math.round(values._g) + "," + Math.round(values._b) + "," + values._a + ")";
-                                    //        break;
-                                    //}
-                                    //console.log("getValue()::Print name: " + element.name);
-                                    //console.log("getValue()::Print value: " + element.value);
-                                    //console.log("getValue()::Print values: " + values);
-                                    //console.log("getValue()::Print mode: " + mode);
-                                    //console.log("getValue()::Print color: " + color);
-
-                                    //var colorB = tinyColor(values);
-                                    //console.log("getValue()::Print tinyColorB: " + colorB + " colorB.colorFormat(): " + colorB.getFormat());
-
-                                    //console.log("getValue()::Print color: " + color + " color.colorFormat(): " + color.getFormat());
-                                    //result = color;
-                                    //result = String(values);
-                                    //result = String(element.value);
                                 }
                             }
                         );
@@ -860,13 +825,6 @@
                     trimRight = /\s+$/;
                 color = String(color).replace(trimLeft, '').replace(trimRight, '').toLowerCase();
                 var named = false;
-                //if (names[color]) {
-                //    color = names[color];
-                //    named = true;
-                //}
-                //else if (color == 'transparent') {
-                //    return { r: 0, g: 0, b: 0, a: 0, format: "name" };
-                //}
 
                 // Try to match string input using regular expressions.
                 // Keep most of the number bounding out of this function - don't worry about [0,1] or [0,100] or [0,360]
