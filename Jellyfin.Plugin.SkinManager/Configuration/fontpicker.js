@@ -18,7 +18,7 @@
 		'arabic': 'Arabic',
 		'bengali': 'Bengali',
 		'chinese-hongkong': 'Chinese (Hong Kong)',
-		'chinese-simplified': 'Chinese (Simplified',
+		'chinese-simplified': 'Chinese (Simplified)',
 		'chinese-traditional': 'Chinese (Traditional)',
 		'cyrillic': 'Cyrillic',
 		'cyrillic-ext': 'Cyrillic Extended',
@@ -5431,7 +5431,7 @@
 						$('.fp-pill[data-font-weight='+fw+']', $activeLi).trigger('click');
 						return;
 					}
-                    var $nextLi = undefined
+                    var $nextLi = undefined;
 					switch(e.keyCode) {
 						case 73: // i, italic
 							stop(e);
@@ -5579,7 +5579,7 @@
 								__cookie('recents', recentFonts.join(','));
 							}
 						})
-					)
+					);
 					$btns.appendTo($li);
 
 					var font = this.allFonts[fontType][fontFamily],
@@ -5595,7 +5595,7 @@
 								continue;
 							}
 
-							let variant = variants[v],
+							var variant = variants[v],
 								fontWeight = +variant.replace(/i$/,'');
 
 							v > 0 && $variants.append(' '); // Separate by space
@@ -5674,7 +5674,7 @@
 						family: family,
 						weight: weight,
 						italic: italic
-					}
+					};
 				},
 
 				/**
@@ -5977,8 +5977,8 @@
                     var fontType = "";
                     var fontFamily = "";
                     var font = undefined;
-					for (var f = 0; f < fonts.length; f++) {
-						tmp = fonts[f].split(':'), fontType = tmp[0], fontFamily = tmp[1], font = this.allFonts[fontType][fontFamily];
+					for (var ff = 0; ff < fonts.length; ff++) {
+						tmp = fonts[ff].split(':'), fontType = tmp[0], fontFamily = tmp[1], font = this.allFonts[fontType][fontFamily];
 						if (!font) { continue; }
 
 						$orgLi = $("[data-font-family='" + fontFamily + "']", this.$results);
@@ -6029,7 +6029,7 @@
 							self.$select
 							.removeAttr('style')
 							.find('.fp-fontspec')
-							.html(self.dictionary['selectFont']);;
+							.html(self.dictionary['selectFont']);
 
 							self.$original.val('').change(); // Update original <input> element
 						}));
@@ -8504,5 +8504,4 @@
 
 });
 
-
-start()
+start();
